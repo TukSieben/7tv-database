@@ -149,12 +149,21 @@
                 <div id="help" class="glass-card centered-message" style="display: none;">
                     <div style="font-size: 4rem;">🏆</div>
                     <h2>Willkommen beim Badge Viewer</h2>
-                    <p class="text-muted">Füge ein Badge hinzu mit dem URL-Parameter:</p>
-                    <code
-                        style="background: var(--color-surface); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--spacing-sm);">
-                        ?badgeID=YOUR_BADGE_ID
-                    </code>
-                    <p class="text-muted mt-2">Beispiel: <code>badge.html?badgeID=60b1e3c3a6f6e5002b5c4e8a</code></p>
+                    <p class="text-muted">Gib eine Badge ID ein, um das Badge anzuzeigen:</p>
+
+                    <div style="width: 100%; max-width: 500px; margin-top: var(--spacing-md);">
+                        <div style="display: flex; gap: var(--spacing-sm);">
+                            <input type="text" id="badge-id-input" placeholder="Badge ID eingeben..."
+                                style="flex: 1; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); border: 1px solid rgba(255, 255, 255, 0.2); background: var(--color-surface); color: var(--color-text-primary); font-size: 1rem; font-family: 'Inter', sans-serif;" />
+                            <button id="load-badge-btn" class="btn btn-primary" style="white-space: nowrap;">
+                                Badge laden
+                            </button>
+                        </div>
+                        <p class="text-muted" style="font-size: 0.875rem; margin-top: var(--spacing-sm);">
+                            Beispiel: <code
+                                style="background: var(--color-surface-elevated); padding: 0.25rem 0.5rem; border-radius: 0.25rem;">60adf05a229664e35c6c8f3f</code>
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Loading State -->
