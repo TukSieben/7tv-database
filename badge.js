@@ -106,3 +106,30 @@ function getBadge() {
 
 // Initialize on page load
 getBadge();
+
+// Add event listeners for the input field and button
+document.addEventListener('DOMContentLoaded', function () {
+    const badgeInput = document.getElementById('badge-id-input');
+    const loadButton = document.getElementById('load-badge-btn');
+
+    if (loadButton) {
+        loadButton.addEventListener('click', function () {
+            const badgeID = badgeInput?.value.trim();
+            if (badgeID) {
+                window.location.href = `badge.html?badgeID=${badgeID}`;
+            }
+        });
+    }
+
+    if (badgeInput) {
+        badgeInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const badgeID = badgeInput.value.trim();
+                if (badgeID) {
+                    window.location.href = `badge.html?badgeID=${badgeID}`;
+                }
+            }
+        });
+    }
+});
+
