@@ -122,29 +122,29 @@ function getPaint() {
         },
         body: JSON.stringify({ query: query }),
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log("API Antwort:", data);
-        
-        const paints = data?.data?.paints?.paints || [];
-        const paintData = paints.find(paint => paint.id === paintID);
+        .then(response => response.json())
+        .then(data => {
+            console.log("API Antwort:", data);
 
-        if (!paintData) return showError();
-        console.log(`Paint Daten für ${paintData.name} ID: ${paintID} ->`, paintData);
+            const paints = data?.data?.paints?.paints || [];
+            const paintData = paints.find(paint => paint.id === paintID);
 
-        if (elements.paintName) {
-            elements.paintName.textContent = paintData.name;
-            document.title = `7TV Database │ ${paintData.name}`;
-        }
+            if (!paintData) return showError();
+            console.log(`Paint Daten für ${paintData.name} ID: ${paintID} ->`, paintData);
 
-        elements.paintDisplay.style.display = 'block';
-        applyPaint(paintData.data, elements.paintName, elements.sample1, elements.sample2);
-    })
-    .catch(error => {
-        console.error('getPaint | Fehler beim Fetchen der Paints', error);
-        showError();
-    })
-    .finally(() => elements.loading.style.display = 'none');
+            if (elements.paintName) {
+                elements.paintName.textContent = paintData.name;
+                document.title = `7TV Database │ ${paintData.name}`;
+            }
+
+            elements.paintDisplay.style.display = 'block';
+            applyPaint(paintData.data, elements.paintName, elements.sample1, elements.sample2);
+        })
+        .catch(error => {
+            console.error('getPaint | Fehler beim Fetchen der Paints', error);
+            showError();
+        })
+        .finally(() => elements.loading.style.display = 'none');
 
     function showError() {
         elements.error.style.display = 'flex';
@@ -153,7 +153,7 @@ function getPaint() {
     }
 }
 
-const convertToHex = (color) => { 
+const convertToHex = (color) => {
     if (color && color.hex) {
         return color.hex;
     } else if (color && color.r !== undefined && color.g !== undefined && color.b !== undefined) {
@@ -182,13 +182,13 @@ function applyShadows(shadows) {
 
 function applyPaint(paintData, paintDiv, sample1Div, sample2Div) {
     if (!paintData || !paintData.layers) return;
-    
+
     const applyStyles = (div, styles) => Object.assign(div.style, styles);
     let imageSet = false;
-    
+
     paintData.layers.forEach(layer => {
         if (!layer.ty) return;
-        
+
         if (layer.ty.images?.length && !imageSet) {
             const largestImage = layer.ty.images.reduce((max, img) => img.size > max.size ? img : max, layer.ty.images[0]);
             if (largestImage?.url) {
@@ -246,7 +246,7 @@ function applyPaint(paintData, paintDiv, sample1Div, sample2Div) {
             [sample1Div, sample2Div, paintDiv].forEach(div => applyStyles(div, styles));
         }
     });
-    
+
     if (paintData.shadows?.length) {
         const shadowStyle = applyShadows(paintData.shadows);
         [sample1Div, sample2Div, paintDiv].forEach(div => div.style.filter = shadowStyle);
@@ -255,3 +255,30 @@ function applyPaint(paintData, paintDiv, sample1Div, sample2Div) {
 
 // Initialize on page load
 getPaint();
+
+// Add event listeners for the input field and button
+document.addEventListener('DOMContentLoaded', function () {
+    const paintInput = document.getElementById('paint-id-input');
+    const loadButton = document.getElementById('load-paint-btn');
+
+    if (loadButton) {
+        loadButton.addEventListener('click', function () {
+            const paintID = paintInput?.value.trim();
+            if (paintID) {
+                window.location.href = `paint.html?paintID=${paintID}`;
+            }
+        });
+    }
+
+    if (paintInput) {
+        paintInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const paintID = paintInput.value.trim();
+                if (paintID) {
+                    window.location.href = `paint.html?paintID=${paintID}`;
+                }
+            }
+        });
+    }
+});
+
