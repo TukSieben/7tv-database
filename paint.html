@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="7TV Paint Viewer - Preview 7TV paints with live rendering">
+    <title>7TV Database │ Paint Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Paint Viewer Specific Styles */
+        .viewer-container {
+            min-height: 100vh;
+            padding: var(--spacing-2xl) var(--spacing-md);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            margin-bottom: var(--spacing-md);
+            transition: color var(--transition-fast);
+        }
+
+        .back-link:hover {
+            color: var(--color-accent-primary);
+        }
+
+        .preview-section {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .paint-display {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .paint-name {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            min-height: 2.5rem;
+        }
+
+        .samples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .sample-box {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 900;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: transform var(--transition-base);
+        }
+
+        .sample-box:hover {
+            transform: scale(1.02);
+        }
+
+        .sample-label {
+            display: block;
+            text-align: center;
+            margin-top: var(--spacing-sm);
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .info-title {
+            color: var(--color-info);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .info-text {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .centered-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            min-height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="viewer-container">
+        <div class="container">
+            <div class="header fade-in">
+                <a href="index.html" class="back-link">
+                    ← Zurück zur Startseite
+                </a>
+                <h1>🎨 <span class="gradient-text">Paint Viewer</span></h1>
+                <p class="text-muted">Sieh dir 7TV Paints mit Live-Vorschau an</p>
+            </div>
+
+            <div class="preview-section">
+                <!-- Help Message -->
+                <div id="help" class="glass-card centered-message" style="display: none;">
+                    <div style="font-size: 4rem;">🎨</div>
+                    <h2>Willkommen beim Paint Viewer</h2>
+                    <p class="text-muted">Füge einen Paint hinzu mit dem URL-Parameter:</p>
+                    <code
+                        style="background: var(--color-surface); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-sm);">
+                        ?paintID=YOUR_PAINT_ID
+                    </code>
+                    <p class="text-muted mt-2">Beispiel: <code>paint.html?paintID=60b1e3c3a6f6e5002b5c4e8a</code></p>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading" class="glass-card centered-message" style="display: none;">
+                    <div class="spinner"></div>
+                    <p class="text-muted">Paint wird geladen...</p>
+                </div>
+
+                <!-- Error State -->
+                <div id="error" class="glass-card centered-message" style="display: none;">
+                    <div style="font-size: 4rem;">⚠️</div>
+                    <h2>Paint nicht gefunden</h2>
+                    <p class="text-muted">Das angegebene Paint konnte nicht geladen werden.</p>
+                    <a href="paint.html" class="btn btn-secondary mt-2">Zurück</a>
+                </div>
+
+                <!-- Paint Display -->
+                <div id="paint-display" class="paint-display fade-in" style="display: none;">
+                    <div id="paint-name" class="paint-name"></div>
+
+                    <div class="samples-grid">
+                        <div>
+                            <div id="sample1" class="sample-box">7TV</div>
+                            <span class="sample-label">Sample 1</span>
+                        </div>
+                        <div>
+                            <div id="sample2" class="sample-box">Paint</div>
+                            <span class="sample-label">Sample 2</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-title">ℹ️ Info</div>
+                        <p class="info-text">
+                            Diese Vorschau zeigt, wie der Paint auf Text angewendet wird.
+                            Die tatsächliche Darstellung kann je nach Browser leicht variieren.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="paint.js"></script>
+</body>
+
+</html>

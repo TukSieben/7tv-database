@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="7TV Database - Explore and preview 7TV paints and badges">
+    <title>7TV Database - Explore Paints & Badges</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Landing Page Specific Styles */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-2xl) var(--spacing-md);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            margin-bottom: var(--spacing-md);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2vw, 1.5rem);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-xl);
+            animation: fadeIn 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero-badge {
+            animation: fadeIn 0.8s ease-out 0.1s backwards;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+            animation: fadeIn 0.8s ease-out 0.4s backwards;
+        }
+
+        .feature-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-7tv);
+            transform: scaleX(0);
+            transition: transform var(--transition-base);
+        }
+
+        .feature-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--spacing-md);
+            background: var(--gradient-7tv);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .feature-description {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer {
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-md);
+            margin-top: var(--spacing-2xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        .footer-link {
+            color: var(--color-accent-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-link:hover {
+            color: var(--color-accent-secondary);
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-card:nth-child(1) .feature-icon {
+            animation-delay: 0s;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            animation-delay: 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <main class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge">7TV Database</span>
+            </div>
+            
+            <h1 class="hero-title">
+                Explore <span class="gradient-text">7TV</span> Paints & Badges
+            </h1>
+            
+            <p class="hero-subtitle">
+                Entdecke und teste alle verfügbaren 7TV Paints und Badges mit Live-Vorschau
+            </p>
+
+            <div class="container">
+                <div class="cards-grid">
+                    <!-- Paint Card -->
+                    <div class="glass-card feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3 class="feature-title">Paint Viewer</h3>
+                        <p class="feature-description">
+                            Sieh dir alle 7TV Paints an mit Live-Vorschau von Gradients, Bildern und Farben
+                        </p>
+                        <a href="paint.html" class="btn btn-primary" style="width: 100%;">
+                            Paints erkunden
+                        </a>
+                    </div>
+
+                    <!-- Badge Card -->
+                    <div class="glass-card feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <h3 class="feature-title">Badge Viewer</h3>
+                        <p class="feature-description">
+                            Durchsuche alle verfügbaren 7TV Badges und zeige sie in hoher Qualität an
+                        </p>
+                        <a href="badge.html" class="btn btn-primary" style="width: 100%;">
+                            Badges erkunden
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p class="footer-text">
+            7TV Database - Inoffizielle Datenbank für 
+            <a href="https://7tv.app" target="_blank" rel="noopener noreferrer" class="footer-link">7TV</a>
+        </p>
+        <p class="footer-text" style="margin-top: var(--spacing-xs);">
+            Verwende <code>?paintID=...</code> oder <code>?badgeID=...</code> Parameter für direkte Links
+        </p>
+    </footer>
+</body>
+</html>
